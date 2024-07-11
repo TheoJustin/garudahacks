@@ -1,11 +1,11 @@
-export default function LandingLayout({
+export default function FormLayout({
     children,
-} : Readonly<{
+}: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
         <>
-        <div className="w-full h-fit flex justify-start items-center">
+        <div className="w-full h-full">
             {children}
         </div>
         </>
