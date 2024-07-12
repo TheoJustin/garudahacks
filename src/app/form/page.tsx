@@ -2,6 +2,7 @@
 
 import FormContextProvider from '@/lib/context/form_context'
 import { useState } from 'react'
+import AptitudeForm from './_components/aptitude-form'
 import CustomRadio from "./_components/custom-radio"
 import EducationForm from "./_components/education-form"
 import EmailForm from './_components/email-form'
@@ -28,6 +29,8 @@ export default function FormPage() {
                   <ScoreForm onNext={() => setCurrentStep(3)} onPrevious={() => setCurrentStep(1)}/>
                 ) : currentStep === 3 ? (
                   <WorkForm onNext={() => setCurrentStep(4)} onPrevious={() => setCurrentStep(2)}/>
+                ) : currentStep === 4 ? (
+                  <AptitudeForm onNext={() => setCurrentStep(5)} onPrevious={() => setCurrentStep(3)} />
                 ) : (
                   <ResultsForm setCurrentStep={setCurrentStep}/>
                 )
