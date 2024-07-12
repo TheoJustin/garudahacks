@@ -1,7 +1,7 @@
 'use client'
 
 import FormContextProvider from '@/lib/context/form_context'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AptitudeForm from './_components/aptitude-form'
 import CustomRadio from "./_components/custom-radio"
 import DescribeForm from './_components/describe-form'
@@ -17,6 +17,12 @@ export default function FormPage() {
     const [currentStep, setCurrentStep] = useState(0)
     const [email, setEmail] = useState("");
 
+    useEffect(() => {
+      const queryParams = new URLSearchParams(window.location.search);
+      const emailQueryParam = queryParams.get("email");
+      setEmail(emailQueryParam || "");
+    }, []);
+
     return (
       <FormContextProvider>
         <div className="w-full h-full flex items-center flex-col">
@@ -28,7 +34,7 @@ export default function FormPage() {
             <div className="w-[70vw] h-[80vh] flex items-center justify-center p-8 overflow-hidden">
               {
                 currentStep === 0 ? (
-                  <EmailForm onNext={() => setCurrentStep(1)}/>
+                  <EmailForm onNext={() => setCurrentStep(1)} queryEmail={email !== "" ? email : ""}/>
                 ) : currentStep === 1 ? (
                   <GenderForm onNext={() => setCurrentStep(2)} onPrevious={() => setCurrentStep(0)}/>
                 ) : currentStep === 2 ? (

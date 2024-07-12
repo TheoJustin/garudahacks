@@ -6,7 +6,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "BrowJob",
+  title: "EasyWork",
   description: "GarudaHacks 5.0, To be changed",
 };
 
