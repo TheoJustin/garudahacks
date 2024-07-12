@@ -19,17 +19,16 @@ export default function ResultsForm({
       setOpacity(1);
 
       // Call finalize once
-      // finalize();
+      finalize();
 
-      // if (evaluation) {
-      //   setIsQualified(evaluation.evaluation ?? false);
-      // }
+      if (evaluation) {
+        setIsQualified(evaluation.evaluation ?? false);
+      }
       // Animate Transition
       setOpacity(0);
       await new Promise((r) => setTimeout(r, 300));
       setLoading(false);
       setOpacity(1);
-      setIsQualified(true);
     })();
   }, [evaluation]);
 

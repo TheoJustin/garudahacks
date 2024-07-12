@@ -71,3 +71,16 @@
 * {
   box-sizing: border-box;
 }
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #4958BF;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
