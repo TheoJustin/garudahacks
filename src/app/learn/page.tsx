@@ -5,8 +5,8 @@ const categoryTemp2 = ["Easy", "Fundamental", "Beginner", "Medium"];
 
 export default function LearnPage() {
   return (
-    <div className="flex flex-col w-full">
-      <h1 className="text-xl font-semibold">Courses available for you!</h1>
+    <div className="flex flex-col w-full gap-3">
+      <h1 className="text-4xl font-semibold">Courses available for you!</h1>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-5">
         <CourseCard
