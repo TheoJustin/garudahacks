@@ -30,7 +30,7 @@ export default function ResultsForm({
       setLoading(false);
       setOpacity(1);
     })();
-  }, [finalize]);
+  }, [evaluation]);
 
   return (
     <div
