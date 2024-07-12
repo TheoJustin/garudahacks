@@ -10,6 +10,7 @@ interface CourseCardInterface {
   name: String;
   students: Number;
   category: String[];
+  source: String;
 }
 
 export default function CourseCard({
@@ -17,6 +18,7 @@ export default function CourseCard({
   name,
   category,
   students,
+  source,
 }: CourseCardInterface) {
   return (
     <Card className="w-full min-h-[27rem] rounded-3xl p-4 flex flex-col gap-4 justify-between">
@@ -30,7 +32,7 @@ export default function CourseCard({
             alt="coverImage"
           />
           <div className="absolute top-4 right-4 bg-white h-fit w-fit px-2 py-1 rounded-xl text-base font-semibold whitespace-nowrap inline-block hover:bg-dark hover:text-white transition-all duration-200 cursor-pointer">
-            udemy.com
+            {source}
           </div>
         </div>
         <div className="flex gap-3 flex-wrap">
