@@ -1,3 +1,30 @@
+<h1 align="center">
+  <br>
+  <a href="https://github.com/TheoJustin/garudahacks/"><img src="/public/images/EasyWork/logo.png" alt="EasyWork" width="200"></a>
+  <br>
+   EasyWork
+  <br>
+</h1>
+
+<h4 align="center">Solving World Poverty, One Career at a Time. We're tackling world poverty by using Large Language Models and vector databases to offer personalized training and job matching.</h4>
+
+EasyWork is a web application that helps solving unemployment problem by guiding people to their dream job. Since we use AI on detecting the capability of the user, the result would be personalized based on the user's experience.
+
+## 🚩 Features
+
+- Vector Database
+- Worldwide Job Vacancy
+- Diverse Courses
+
+## 📧 Contact Information
+
+If any questions occured, or in the need of any discussion or details,
+please contact us :
+
+- Email : theojustinx@gmail.com
+- Telegram : https://t.me/theojustin
+- Discord : tj_7
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
