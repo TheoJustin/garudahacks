@@ -1,17 +1,13 @@
-
-
 import { Button } from "@/lib/components/ui/button";
 import Image from "next/image";
 import CtaField from "./_components/cta-field";
-import mockup from "@/public/images/EasyWork/mockup_easywork.png"
-import background from "@/public/images/background.png"
+import mockup from "@/public/images/EasyWork/mockup_easywork.png";
+import background from "@/public/images/background.png";
 import LandingServices from "./_components/landing-services";
 import LandingParallax from "./_components/landing-parallax";
 import Footer from "@/lib/components/footer";
 
 export default function Home() {
-
-
 
   return (
     <main >
