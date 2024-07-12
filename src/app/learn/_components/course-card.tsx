@@ -19,7 +19,7 @@ export default function CourseCard({
   students,
 }: CourseCardInterface) {
   return (
-    <Card className="w-[25rem] min-h-[27rem] rounded-3xl p-4 flex flex-col gap-4 justify-between">
+    <Card className="w-full min-h-[27rem] rounded-3xl p-4 flex flex-col gap-4 justify-between">
       <div className="h-full flex flex-col gap-3 relative">
         <div className="relative">
           <Image
@@ -35,11 +35,11 @@ export default function CourseCard({
         </div>
         <div className="flex gap-3 flex-wrap">
           {category.map((c, i) => {
-            if (i < 3) {
+            if (i < 2) {
               return <TypeBadge type={c} />;
             }
-            if(i == 3){
-              return <TypeBadge type={`+${category.length - 3}`} />;
+            if(i == 2){
+              return <TypeBadge type={`+${category.length - 2}`} />;
             }
           })}
         </div>
