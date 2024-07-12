@@ -6,7 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "EasyWork",
+  title: "BrowJob",
   description: "GarudaHacks 5.0, To be changed",
 };
 

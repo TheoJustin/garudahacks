@@ -1,7 +1,7 @@
 "use client";
 
 import FormContextProvider from '@/lib/context/form_context'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import AptitudeForm from './_components/aptitude-form'
 import CustomRadio from "./_components/custom-radio"
 import DescribeForm from './_components/describe-form'
@@ -13,16 +13,10 @@ import ScoreForm from './_components/score-form'
 import WorkForm from './_components/work-form'
 
 export default function FormPage() {
-  const [currentStep, setCurrentStep] = useState(7);
+  const [currentStep, setCurrentStep] = useState(0);
 
     // const [currentStep, setCurrentStep] = useState(0)
     const [email, setEmail] = useState("");
-
-    useEffect(() => {
-      const queryParams = new URLSearchParams(window.location.search);
-      const emailQueryParam = queryParams.get("email");
-      setEmail(emailQueryParam || "");
-    }, []);
 
     return (
       <FormContextProvider>
@@ -35,7 +29,7 @@ export default function FormPage() {
             <div className="w-[70vw] h-[80vh] flex items-center justify-center p-8 overflow-hidden">
               {
                 currentStep === 0 ? (
-                  <EmailForm onNext={() => setCurrentStep(1)} queryEmail={email !== "" ? email : ""}/>
+                  <EmailForm onNext={() => setCurrentStep(1)}/>
                 ) : currentStep === 1 ? (
                   <GenderForm onNext={() => setCurrentStep(2)} onPrevious={() => setCurrentStep(0)}/>
                 ) : currentStep === 2 ? (
@@ -54,50 +48,6 @@ export default function FormPage() {
               }
           </div>
         </div>
-        <div className="w-full h-2">
-          <div
-            className="h-full bg-blue-400 transition-all duration-400"
-            style={{ width: (currentStep / 7) * 100 + "%" }}
-          ></div>
-        </div>
-        <div className="w-[70vw] h-[80vh] flex items-center justify-center p-8 overflow-hidden">
-          {currentStep === 0 ? (
-            <EmailForm onNext={() => setCurrentStep(1)} />
-          ) : currentStep === 1 ? (
-            <GenderForm
-              onNext={() => setCurrentStep(2)}
-              onPrevious={() => setCurrentStep(0)}
-            />
-          ) : currentStep === 2 ? (
-            <DescribeForm
-              onNext={() => setCurrentStep(3)}
-              onPrevious={() => setCurrentStep(1)}
-            />
-          ) : currentStep === 3 ? (
-            <EducationForm
-              onNext={() => setCurrentStep(4)}
-              onPrevious={() => setCurrentStep(2)}
-            />
-          ) : currentStep === 4 ? (
-            <ScoreForm
-              onNext={() => setCurrentStep(5)}
-              onPrevious={() => setCurrentStep(3)}
-            />
-          ) : currentStep === 5 ? (
-            <WorkForm
-              onNext={() => setCurrentStep(6)}
-              onPrevious={() => setCurrentStep(4)}
-            />
-          ) : currentStep === 6 ? (
-            <AptitudeForm
-              onNext={() => setCurrentStep(7)}
-              onPrevious={() => setCurrentStep(5)}
-            />
-          ) : (
-            <ResultsForm setCurrentStep={setCurrentStep} />
-          )}
-        </div>
-      </div>
     </FormContextProvider>
   );
 }

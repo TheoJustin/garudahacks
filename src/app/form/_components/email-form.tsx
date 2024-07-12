@@ -7,10 +7,9 @@ import { useFormContext } from "@/lib/context/form_context";
 import { Input } from "@/lib/components/ui/input";
 
 export default function EmailForm({
-  onNext, queryEmail
+  onNext
 } : {
-  onNext?: () => void, 
-  queryEmail? : string
+  onNext?: () => void
 } ) {
 
   const { formData, appendFormData } = useFormContext()
@@ -36,18 +35,6 @@ export default function EmailForm({
   useEffect(() => {
     setOpacity(1)
   }, [])
-
-  useEffect(() => {
-    if(queryEmail && queryEmail !== "") {
-      setEmail(queryEmail)
-    }
-    else if(formData?.email) {
-      setEmail(formData?.email)
-    }
-    else {
-      setEmail("")
-    }
-  }, [queryEmail])
 
   return (
     <div 
