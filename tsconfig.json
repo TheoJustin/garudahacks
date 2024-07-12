@@ -24,7 +24,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/components/*": ["./src/lib/components/*"],
-      "@/hooks/*": ["./src/lib/hooks/*"]
+      "@/hooks/*": ["./src/lib/hooks/*"],
+      "@/public/*": ["./public/*"],
     }
   },
   "include": [

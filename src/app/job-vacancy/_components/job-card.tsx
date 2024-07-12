@@ -2,7 +2,7 @@ import { Button } from "@/lib/components/ui/button";
 import { Card } from "@/lib/components/ui/card";
 import { Heart } from "lucide-react";
 import Image from "next/image";
-import placeholder from "../../../public/google.png";
+import placeholder from "@/public/google.png";
 import JobTypeBadge from "./job-type-badge";
 
 interface JobCardInterface {
