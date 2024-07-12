@@ -3,7 +3,7 @@ import { Card } from "@/lib/components/ui/card";
 import { Heart } from "lucide-react";
 import Image from "next/image";
 import placeholder from "../../../public/google.png";
-import JobTypeBadge from "../job-vacancy/_components/job-type-badge";
+import JobTypeBadge from "./job-type-badge";
 
 interface JobCardInterface {
   logo: String;
@@ -35,7 +35,7 @@ export default function JobCard({
               />
             </div>
             <div className="bg-white h-fit w-fit px-2 py-1 rounded-full text-base font-semibold whitespace-nowrap inline-block">
-              {`${numberOfSlots} Slot(s)`}
+              {`${numberOfSlots} Slot${numberOfSlots == 1 ? "" : "s"}`}
             </div>
           </div>
           <div>
