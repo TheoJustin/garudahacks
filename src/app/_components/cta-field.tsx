@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { IoMdSearch } from "react-icons/io";
 
-export default function CtaButton() {
+export default function CtaField() {
   const router = useRouter();
 
   const handleRedirect = () => {
