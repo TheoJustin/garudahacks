@@ -1,5 +1,5 @@
 import { Card } from "@/lib/components/ui/card";
-import JobCard from "../_components/job-card";
+import JobCard from "./_components/job-card";
 
 const jobTypeTemp = ["Fulltime", "Parttime", "Intern"];
 

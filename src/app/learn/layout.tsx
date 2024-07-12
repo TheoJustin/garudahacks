@@ -5,7 +5,7 @@ export default function LearnLayout({
 }>) {
     return (
         <>
-        <div className="w-full h-full">
+        <div className="w-full h-fit flex justify-start items-center p-6">
             {children}
         </div>
         </>
