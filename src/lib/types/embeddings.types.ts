@@ -14,7 +14,12 @@ export interface PineconeQuery {
 }
 
 export interface EvaluationQueryResult {
-  evaluation: boolean | undefined;
-  skillReccomendations: RecordMetadataValue[] | undefined;
-  jobs: QueryResponse<RecordMetadata> | undefined;
+  evaluation: WithQuery<boolean> | undefined;
+  skillReccomendations: WithQuery<RecordMetadataValue[]> | undefined;
+  jobs: WithQuery<QueryResponse<RecordMetadata>> | undefined;
+}
+
+export interface WithQuery<T> {
+  data : T
+  query : string
 }

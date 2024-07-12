@@ -77,9 +77,15 @@ export class PineconeService {
   async insertUser({
     userForm,
     userId,
+    metadata
   }:{
     userForm: Partial<UserForm>,
-    userId: string | null
+    userId: string | null,
+    metadata: {
+      competency : string
+      jobs : string
+      skills : string
+    }
   }){
     const userNs = "user"
     const combinedText = `${userForm.email} ${userForm.username}`
@@ -110,6 +116,10 @@ export class PineconeService {
         workExperience: userForm.workExperience ?? false,
         workExperiences: workExperiences as string,
         aptitudeTest: userForm.aptitudeTest ?? 0,
+
+        competency: metadata.competency,
+        job: metadata.jobs,
+        skills: metadata.skills
       },
     };
 

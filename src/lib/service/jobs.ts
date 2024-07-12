@@ -3,6 +3,12 @@ import { UserForm } from "../types/user-form.types";
 import { pineconeService } from "../config/pinecone.config";
 import { RecordMetadata } from "@pinecone-database/pinecone/dist/data/types";
 import { QueryResponse } from "@pinecone-database/pinecone";
+import { WithQuery } from "../types/embeddings.types";
+
+// interface QueryResult{
+//   result : QueryResponse<RecordMetadata>
+//   query : string
+// }
 
 async function buildJobsQuery({
   userForm,
@@ -33,17 +39,20 @@ export async function queryJobs({
   userForm,
 }: {
   userForm: Partial<UserForm>;
-}): Promise<QueryResponse<RecordMetadata>> {
+}): Promise<WithQuery<QueryResponse<RecordMetadata>>> {
   const query = await buildJobsQuery({
     userForm: userForm,
   });
 
   console.log("run just once");
 
-  const { queryResult } = await pineconeService.queryEmbeddings({
+  const {queryText, queryResult } = await pineconeService.queryEmbeddings({
     queryText: query,
     namespace: "findjobs",
   });
 
-  return queryResult;
+  return {
+    data : queryResult,
+    query : queryText
+  };
 }

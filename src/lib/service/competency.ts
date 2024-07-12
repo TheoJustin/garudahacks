@@ -1,6 +1,12 @@
 "use server";
 import { UserForm } from "../types/user-form.types";
 import { pineconeService } from "../config/pinecone.config";
+import { WithQuery } from "../types/embeddings.types";
+
+interface QueryResult{
+  result : boolean
+  query : string
+}
 
 async function buildCompetencyQuery({
   userForm,
@@ -50,19 +56,24 @@ export async function queryCompetency({
   userForm,
 }: {
   userForm: Partial<UserForm>;
-}): Promise<boolean> {
+}): Promise<WithQuery<boolean>> {
   const query = await buildCompetencyQuery({
     userForm: userForm,
   });
 
   console.log("queried one time");
 
-  const { queryResult } = await pineconeService.queryEmbeddings({
+  const { queryText, queryResult } = await pineconeService.queryEmbeddings({
     queryText: query,
     namespace: "jobs",
   });
 
   const evaluation = queryResult.matches[0].metadata?.label;
+  const result = (evaluation == "Placed")
 
-  return evaluation == "Placed";
+
+  return {
+    data : result,
+    query : queryText
+  };
 }

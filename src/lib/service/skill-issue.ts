@@ -2,6 +2,7 @@
 import { UserForm } from "../types/user-form.types";
 import { pineconeService } from "../config/pinecone.config";
 import { RecordMetadataValue } from "@pinecone-database/pinecone/dist/data/types";
+import { WithQuery } from "../types/embeddings.types";
 
 async function buildSkillImprovementQuery({
   userForm,
@@ -43,14 +44,14 @@ export async function querySkillIssue({
   userForm,
 }: {
   userForm: Partial<UserForm>;
-}): Promise<RecordMetadataValue[]> {
+}): Promise<WithQuery<RecordMetadataValue[]>> {
   const query = await buildSkillImprovementQuery({
     userForm: userForm,
   });
 
   console.log("ke run sekali");
 
-  const { queryResult } = await pineconeService.queryEmbeddings({
+  const {queryText, queryResult } = await pineconeService.queryEmbeddings({
     queryText: query,
     namespace: "findjobs",
   });
@@ -59,5 +60,8 @@ export async function querySkillIssue({
     .map((match) => match.metadata!.skills)
     .filter((skill) => !!skill);
 
-  return skills;
+  return {
+    data : skills,
+    query : queryText
+  };
 }
