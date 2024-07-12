@@ -22,9 +22,12 @@ export default function JobCard({
   startingSalary,
   jobType,
 }: JobCardInterface) {
+
+  const colors = ["#ffe1cc", "#d5f6ed", "#e2dbfa", "#fbe2f5", "#eceff4"]
+
   return (
-    <Card className="w-[25rem] min-h-32 rounded-3xl p-3 flex flex-col gap-5">
-      <div className="w-full h-full bg-cyan-100 rounded-2xl p-3">
+    <Card className="w-full min-h-32 rounded-3xl p-3 flex flex-col gap-5">
+      <div className="w-full h-full rounded-2xl p-3" style={{backgroundColor: colors[Math.floor(Math.random() * 5)]}}>
         <div className="flex flex-col h-full gap-3 justify-between">
           <div className="flex justify-between items-center">
             <div className="bg-white h-fit w-fit rounded-full font-semibold">

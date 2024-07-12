@@ -22,9 +22,7 @@ export default function Home() {
             <CtaField />
           </header>
           
-          <div className="h-full flex w-[40vw] justify-center overflow-hidden relative">
-            
-            
+          <div className="h-full flex w-[40vw] justify-center overflow-hidden relative">            
             <LandingParallax />
           </div>
         </div>
