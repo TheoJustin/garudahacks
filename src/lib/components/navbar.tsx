@@ -5,7 +5,7 @@ import logo_text from "@/public/images/EasyWork/logo_text_1.png"
 import { UserIcon } from "lucide-react";
 import Image from "next/image"
 import Link from "next/link";
-import useHasScrolled from "../hooks/useHasScrolled";
+import useHasScrolled from "../hooks/use-has-scrolled";
 import { Button } from "./ui/button";
 import { SignedIn, SignedOut, SignOutButton } from "@clerk/nextjs";
 
