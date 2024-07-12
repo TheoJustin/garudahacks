@@ -14,26 +14,27 @@ export default function Home() {
 
 
   return (
-    <main className="w-full flex flex-col bg-slate-100">
+    <main >
+      <div className="w-full flex flex-col bg-slate-100">
+        <div className="w-full h-screen flex justify-between">
+          <header className="p-20 pt-36 w-[50vw] flex flex-col gap-6">
+            {/* Heading */}
+            <h1 className="text-7xl font-semibold text-slate-800">Land Your <span className="text-primary">Dream Job</span> with Ease and Confidence</h1>
+            <h3 className="mb-4 text-slate-500">With AI-driven insights and personalized recommendations to guide your career journey</h3>
 
-      <div className="w-full h-screen flex justify-between">
-        <header className="p-20 pt-36 w-[50vw] flex flex-col gap-6">
-          {/* Heading */}
-          <h1 className="text-7xl font-semibold text-slate-800">Land Your <span className="text-primary">Dream Job</span> with Ease and Confidence</h1>
-          <h3 className="mb-4 text-slate-500">With AI-driven insights and personalized recommendations to guide your career journey</h3>
-
-          {/* CTA Button */}
-          <CtaField />
-        </header>
-        
-        <div className="h-full flex w-[40vw] justify-center overflow-hidden relative">
+            {/* CTA Button */}
+            <CtaField />
+          </header>
           
-          
-          <LandingParallax />
+          <div className="h-full flex w-[40vw] justify-center overflow-hidden relative">
+            
+            
+            <LandingParallax />
+          </div>
         </div>
-      </div>
 
-      <LandingServices />
+        <LandingServices />
+      </div>
 
       <Footer />
     </main>

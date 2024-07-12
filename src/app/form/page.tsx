@@ -11,6 +11,8 @@ import GenderForm from './_components/gender-form'
 import ResultsForm from './_components/results-form'
 import ScoreForm from './_components/score-form'
 import WorkForm from './_components/work-form'
+import logo from "@/public/images/EasyWork/logo_text_white.png"
+import Image from 'next/image'
 
 export default function FormPage() {
 
@@ -26,7 +28,11 @@ export default function FormPage() {
     return (
       <FormContextProvider>
         <div className="w-full h-full flex items-center flex-col">
-          <div className="w-full h-16 flex items-center justify-center bg-primary text-white text-lg font-bold">EasyWork</div>
+          <div className="w-full h-16 flex items-center justify-center bg-primary text-white text-lg font-bold">
+            <div className="w-24 h-full relative flex-shrink-0 self-end">
+              <Image src={logo} layout="fill" objectFit="contain" alt="mockup"/>
+            </div>
+          </div>
           <div className='w-full h-2'>
             <div className='h-full bg-blue-400 transition-all duration-400' style={{width: currentStep / 7 * 100 + "%"}}></div>
           </div>

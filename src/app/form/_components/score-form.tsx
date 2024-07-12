@@ -57,7 +57,7 @@ export default function ScoreForm({
         <Input 
           className="border-slate-400 rounded-sm" 
           placeholder="Your score here" type={"number"}
-          onChange={(e) => setScore(parseInt(e.target.value))}
+          onChange={(e) => setScore(parseFloat(e.target.value))}
           value={score}
         />
       </div>
