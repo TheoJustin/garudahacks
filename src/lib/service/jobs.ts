@@ -11,9 +11,11 @@ async function buildJobsQuery({
 }): Promise<string> {
   const gender = userForm.gender ? `${userForm.gender}` : "";
 
-  const description = userForm.description
-    ? `this person's description implies that ${userForm.description}`
-    : "";
+  const description = userForm.description ? `${userForm.description}` : "";
+
+  const workExperience = userForm.workExperience
+    ? "I have previous work experience,"
+    : "I have no work experience.";
   let workExperiences = "";
   if (userForm.workExperience && userForm.workExperiences) {
     workExperiences = userForm.workExperiences
@@ -23,7 +25,7 @@ async function buildJobsQuery({
       .join(" ");
   }
 
-  const combinedText = `This company preferenced ${gender} gender, ${description}. ${workExperiences} What jobs am i qualified for?`;
+  const combinedText = `I am a ${gender}, ${description}. ${workExperience} ${workExperiences} What jobs am i qualified for?`;
   return combinedText;
 }
 

@@ -4,9 +4,8 @@ export default function Footer({
   className?: string
 }) {
   return (
-    <div className={`w-full h-[60vh] ${className} p-10`}>
-      <div className="w-full h-full border border-slate-300 rounded-xl">
-
+    <div className={`${className} w-full h-[60vh]`}>
+      <div className={`w-full h-full bg-white rounded-t-3xl`}>
       </div>
     </div>
   )
