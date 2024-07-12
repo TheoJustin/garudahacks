@@ -8,12 +8,17 @@ dotenv.config();
 
 let openAiService = new OpenAIService();
 
+export enum ManagePineconeIndexEnum {
+  Create = "CREATE",
+  Delete = "DELETE",
+}
+
 export class PineconeService {
   pinecone: Pinecone;
 
   constructor() {
     this.pinecone = new Pinecone({
-      apiKey: process.env.PINECONE_API_KEY as string, // TODO: help
+      apiKey: process.env.PINECONE_API_KEY as string,
     });
   }
 
@@ -74,26 +79,38 @@ export class PineconeService {
     };
   }
 
-  // async manageIndex(action: string) {
-  //   const indextExists = (await this.pinecone.listIndexes()).indexes?.some((index)=> index.name === PINECONE_CONFIG.indexName)
-  //
-  //   if (action == "CREATE"){
-  //     if(indextExists){
-  //       console.log("Already exists")
-  //       return;
-  //     }
-  //
-  //     await pc.createIndex({
-  //       name: PINECONE_CONFIG.indexName,
-  //       dimension: PINECONE_CONFIG.dimensions,
-  //       metric: PINECONE_CONFIG.metric,
-  //       spec: {
-  //         serverless :{
-  //           cloud: PINECONE_CONFIG.cloud,
-  //           region: PINECONE_CONFIG.region
-  //         }
-  //       }
-  //     });
-  //   }
-  // }
+  async manageIndex(action: ManagePineconeIndexEnum) {
+    const indextExists = (await this.pinecone.listIndexes()).indexes?.some(
+      (index) => index.name === PINECONE_CONFIG.indexName,
+    );
+
+    if (action == ManagePineconeIndexEnum.Create) {
+      if (indextExists) {
+        console.error("Already exists");
+        return;
+      }
+
+      await this.pinecone.createIndex({
+        name: PINECONE_CONFIG.indexName,
+        dimension: PINECONE_CONFIG.dimensions,
+        metric: PINECONE_CONFIG.metric,
+        spec: {
+          serverless: {
+            cloud: PINECONE_CONFIG.cloud,
+            region: PINECONE_CONFIG.region,
+          },
+        },
+      });
+      return;
+    }
+
+    if (action == ManagePineconeIndexEnum.Delete) {
+      if (!indextExists) {
+        console.error("Does not exists");
+        return;
+      }
+      await this.pinecone.deleteIndex(PINECONE_CONFIG.indexName);
+      return;
+    }
+  }
 }

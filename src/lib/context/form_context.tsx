@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { createContext, useState, useContext} from 'react'
 import { useMutation } from 'react-query'
 import { UserForm } from '../types/user-form.types';
+import { queryCompetency } from '../service/competency';
 
 type FormContextType = {
   formData: Partial<UserForm>,
@@ -30,7 +31,6 @@ export default function FormContextProvider({
 }) {
 
   const [formData, setFormData] = useState<Partial<UserForm>>({});
-  const router = useRouter();
 
   const { mutate: appendFormData, isLoading: isAppendFormDataLoading } = useMutation(
     async (data: Partial<UserForm>) => {
@@ -46,11 +46,15 @@ export default function FormContextProvider({
 
       // TODO: Do some validation here
 
+      await queryCompetency({
+        userForm:formData
+      })
       // TODO: Call the API to create the Form
     },
     {
         onSuccess:(data)=>{
             // toast("Form successfully created!") 
+            console.log(data)
         },
         onError:(error:Error)=>{
             // toast.error(error.message,{
