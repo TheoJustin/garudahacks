@@ -9,11 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@radix-ui/react-avatar": "^1.1.0",
-=======
     "@pinecone-database/pinecone": "^2.2.2",
->>>>>>> b74abcb86e04d880c67195474dd0252799fa0320
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/themes": "^3.1.1",

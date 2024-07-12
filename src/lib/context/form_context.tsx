@@ -46,12 +46,11 @@ export default function FormContextProvider({
 
       // TODO: Do some validation here
 
-      // TODO: Call the API to create the restaurant
+      // TODO: Call the API to create the Form
     },
     {
         onSuccess:(data)=>{
-            // toast("Restaurant successfully created!")
-            router.push(`/`)
+            // toast("Form successfully created!") 
         },
         onError:(error:Error)=>{
             // toast.error(error.message,{
