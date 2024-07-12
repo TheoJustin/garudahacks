@@ -1,8 +1,10 @@
 export interface UserForm {
-  educationLevel: number; // 1 middle, 2 high, 3 >= undergrad
+  educationLevel: number;
   email: string;
   name: string;
   score: number;
+  description: string;
+  gender: 'Male' | 'Female';
   workExperience: boolean;
   workExperiences?: WorkExperience[];
   aptitudeTest: number;
@@ -10,6 +12,6 @@ export interface UserForm {
 
 export interface WorkExperience {
   field: string;
-  year: string;
+  year: number;
   latestPosition : string
 }

@@ -22,9 +22,9 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/lib/components/*"],
+      "@/hooks/*": ["./src/lib/hooks/*"]
     }
   },
   "include": [
