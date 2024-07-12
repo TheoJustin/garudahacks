@@ -82,6 +82,11 @@ export default function ResultsFormQualified({
         await upsertUserToPinecone({
           userForm: formData,
           userId: completeSignUp.createdUserId,
+          metadata:{
+            competency: evaluation!.evaluation!!.query as string,
+            jobs: evaluation!!!.jobs!!!!.query as string,
+            skills: evaluation!!!!!.skillReccomendations!!!!!!.query as string
+          }
         });
         setVerifying(false);
         router.push("/job-vacancy");

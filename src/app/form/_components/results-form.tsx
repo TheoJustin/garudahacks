@@ -21,8 +21,8 @@ export default function ResultsForm({
       // Call finalize once
       finalize();
 
-      if (evaluation) {
-        setIsQualified(evaluation.evaluation ?? false);
+      if (evaluation && evaluation.evaluation) {
+        setIsQualified(evaluation.evaluation.data ?? false);
       }
       // Animate Transition
       setOpacity(0);
@@ -30,7 +30,7 @@ export default function ResultsForm({
       setLoading(false);
       setOpacity(1);
     })();
-  }, [evaluation]);
+  }, [finalize]);
 
   return (
     <div
