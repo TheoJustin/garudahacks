@@ -5,7 +5,11 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { IoMdSearch } from "react-icons/io";
 
-export default function CtaField() {
+export default function CtaField({
+  className="w-[75%]"
+} : {
+  className?: string
+}) {
   const router = useRouter();
 
   const handleRedirect = () => {
@@ -13,7 +17,7 @@ export default function CtaField() {
   };
 
   return (
-    <div className="w-[75%] flex items-center justify-end">
+    <div className={`${className} flex items-center justify-end`}>
       <Input className="bg-white py-7" placeholder="Type Your Dream Job"/>
       <Button className="flex gap-4 w-fit px-8 absolute mr-2" onClick={handleRedirect}>
         Find me a job

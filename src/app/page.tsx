@@ -6,6 +6,7 @@ import background from "@/public/images/background.png";
 import LandingServices from "./_components/landing-services";
 import LandingParallax from "./_components/landing-parallax";
 import Footer from "@/lib/components/footer";
+import FooterLanding from "@/lib/components/footer_landing";
 
 export default function Home() {
 
@@ -30,7 +31,7 @@ export default function Home() {
         <LandingServices />
       </div>
 
-      <Footer />
+      <FooterLanding />
     </main>
   );
 }
