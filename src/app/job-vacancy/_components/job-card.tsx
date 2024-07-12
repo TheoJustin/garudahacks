@@ -25,11 +25,11 @@ export default function JobCard({logo, company, position, numberOfSlots, startin
 			>
 				<div className="flex flex-col h-full gap-3 justify-between">
 					<div className="flex justify-between items-center">
-						<div className="bg-white h-fit w-fit rounded-full font-semibold">
+						<div className="bg-white h-10 w-10 overflow-clip rounded-full  font-semibold">
 							<Image
 								width={2000}
 								height={2000}
-								className="w-10 h-10 object-cover"
+								className="w-full h-full object-cover"
 								src={logo}
 								alt="coverImage"
 							/>

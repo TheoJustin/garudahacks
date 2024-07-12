@@ -43,10 +43,10 @@ export default async function SteveJobs({ userId }: { userId: string | undefined
             key={index}
             logo={company.src}
             company={company.name}
-            numberOfSlots={20}
+            numberOfSlots={Math.floor(Math.random() * 10) + 1}
             position={r.metadata?.Job as string}
-            startingSalary={15000000}
-            jobType={[r.metadata?.role as string]}
+            startingSalary={Math.floor(Math.random() * 20000000) + 5000000}
+            jobType={[r.metadata?.Role as string]}
           />
         );
       })}
