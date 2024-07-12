@@ -3,6 +3,7 @@ import { PINECONE_CONFIG } from "../config/pinecone.config";
 import dotenv from "dotenv";
 import { PineconeQuery } from "../types/embeddings.types";
 import { openAiService } from "../config/openai.config";
+import { UserForm } from "../types/user-form.types";
 
 dotenv.config();
 
@@ -67,13 +68,55 @@ export class PineconeService {
         vector: queryEmbedding.data[0].embedding,
       });
 
-    // console.log(queryText);
-    // console.log(queryResult.matches);
-
     return {
       queryText,
       queryResult,
     };
+  }
+
+  async insertUser({
+    userForm,
+    userId,
+  }:{
+    userForm: Partial<UserForm>,
+    userId: string | null
+  }){
+    const userNs = "user"
+    const combinedText = `${userForm.email} ${userForm.username}`
+
+    const embedding = await openAiService.createEmbeddings({
+      queryText:combinedText
+    });
+
+    let workExperiences = "";
+    if (userForm.workExperience && userForm.workExperiences) {
+      workExperiences = userForm.workExperiences
+        .map((experience) => {
+          return `I worked for ${experience.year} years as a ${experience.latestPosition} in ${experience.field}.`;
+        })
+        .join(" ");
+    }
+
+    const vector = {
+      id: userId as string,
+      values: embedding.data[0].embedding,
+      metadata: {
+        educationLevel: userForm.educationLevel ?? 0,
+        email: userForm.email as string,
+        username: userForm.username as string,
+        score: userForm.score ?? 0,
+        description: userForm.description as string,
+        gender: userForm.gender as string,
+        workExperience: userForm.workExperience ?? false,
+        workExperiences: workExperiences as string,
+        aptitudeTest: userForm.aptitudeTest ?? 0,
+      },
+    };
+
+    await this.pinecone
+      .index(PINECONE_CONFIG.indexName)
+      .namespace(userNs)
+      .upsert([vector])
   }
 
   async manageIndex(action: ManagePineconeIndexEnum) {

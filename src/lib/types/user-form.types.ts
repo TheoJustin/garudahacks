@@ -1,7 +1,7 @@
 export interface UserForm {
   educationLevel: number;
   email: string;
-  name: string;
+  username: string;
   score: number;
   description: string;
   gender: 'Male' | 'Female';

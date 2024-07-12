@@ -7,6 +7,7 @@ import Image from "next/image"
 import Link from "next/link";
 import useHasScrolled from "../hooks/useHasScrolled";
 import { Button } from "./ui/button";
+import { SignedIn, SignedOut, SignOutButton } from "@clerk/nextjs";
 
 export default function Navbar({
   hoveredClassName = "bg-white shadow-lg"
@@ -36,7 +37,14 @@ export default function Navbar({
       </div>
       <div className="overflow-hidden">
         <div className={`${hasScrolled ? "translate-x-full opacity-0" : "opacity-100"} transition-all duration-500`}>
-          <Button className="bg-primary rounded-xl px-8">Register</Button>
+          <SignedOut>
+            <Button className="bg-primary rounded-xl px-8">Register</Button>
+          </SignedOut>
+          <SignedIn>
+            <SignOutButton>
+              Sign Out
+            </SignOutButton>
+          </SignedIn>
           {/* <Link href={'/profile'} className={`w-9 h-9 bg-white hover:bg-slate-200 rounded-full flex items-center justify-center transition-all duration-500 cursor-pointer`}>
               <UserIcon />
           </Link> */}
