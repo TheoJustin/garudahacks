@@ -5,8 +5,8 @@ const jobTypeTemp = ["Fulltime", "Parttime", "Intern"];
 
 export default function JobVacancyPage() {
   return (
-    <div className="flex flex-col w-full">
-      <h1 className="text-xl font-semibold">Recommended Jobs for You!</h1>
+    <div className="flex flex-col w-full gap-3">
+      <h1 className="text-4xl font-semibold">Recommended Jobs for You!</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-5">
         <JobCard
           logo={"a"}

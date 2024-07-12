@@ -50,7 +50,7 @@ export default function JobCard({
         </div>
       </div>
       <div className="w-full gap-2 flex flex-col">
-        <div className="flex gap-3 mb-6">
+        <div className="flex gap-3 mb-6 flex-wrap">
           {jobType.map((job, i) => {
             if (i < 3) {
               return <TypeBadge type={job} />;
