@@ -3,6 +3,8 @@ export interface UserForm {
   email: string;
   name: string;
   score: number;
+  description: string;
+  gender: 'Male' | 'Female';
   workExperience: boolean;
   workExperiences?: WorkExperience[];
   aptitudeTest: number;
@@ -10,6 +12,6 @@ export interface UserForm {
 
 export interface WorkExperience {
   field: string;
-  year: string;
+  year: number;
   latestPosition : string
 }
