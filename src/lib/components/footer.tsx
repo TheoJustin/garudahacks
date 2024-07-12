@@ -7,7 +7,7 @@ export default function Footer({
   className?: string
 }) {
   return (
-    <div className={`w-full h-[105vh] flex flex-col justify-between`}>
+    <div className={`w-full h-[102vh] flex flex-col justify-between`}>
       <div className={`w-full h-32 ${className} rounded-b-3xl`}>
       </div>
       
