@@ -36,7 +36,7 @@ export default function Navbar({
         </div>
       </div>
       <div className="overflow-hidden">
-        <div className={`${hasScrolled ? "translate-x-full opacity-0" : "opacity-100"} transition-all duration-500`}>
+        <div className={`${hasScrolled ? "translate-x-full opacity-0" : "opacity-100"} transition-all duration-500 pr-8`}>
           <SignedOut>
             <Button className="bg-primary rounded-xl px-8">Register</Button>
           </SignedOut>
