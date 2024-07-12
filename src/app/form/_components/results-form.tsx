@@ -22,7 +22,7 @@ export default function ResultsForm({
       finalize();
 
       if (evaluation && evaluation.evaluation) {
-        setIsQualified(evaluation.evaluation.data ?? false);
+        setIsQualified(evaluation.evaluation.data.evaluation ?? false);
       }
       // Animate Transition
       setOpacity(0);
@@ -30,7 +30,7 @@ export default function ResultsForm({
       setLoading(false);
       setOpacity(1);
     })();
-  }, [finalize]);
+  }, [evaluation?.evaluation]);
 
   return (
     <div

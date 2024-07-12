@@ -38,10 +38,10 @@ export default function CourseCard({
         <div className="flex gap-3 flex-wrap">
           {category.map((c, i) => {
             if (i < 2) {
-              return <TypeBadge type={c} />;
+              return <TypeBadge key={i} type={c} />;
             }
             if(i == 2){
-              return <TypeBadge type={`+${category.length - 2}`} />;
+              return <TypeBadge key={i} type={`+${category.length - 2}`} />;
             }
           })}
         </div>

@@ -51,10 +51,28 @@ export class PineconeService {
     );
   }
 
+  async queryUserById({userId}: {userId:string}) {
+    const index = this.pinecone.Index(PINECONE_CONFIG.indexName); 
+    try {
+      const queryResponse = await index.namespace("user").fetch([userId]);
+      if (queryResponse.records) {
+        return queryResponse.records;
+      } 
+      else {
+        throw new Error('User not found');
+      }
+    } catch (error) {
+      console.error('Error querying user by ID:', error);
+      throw error;
+    }
+  }
+
   async queryEmbeddings({
     queryText,
     namespace,
+    topK = 5,
   }: {
+    topK?: number,
     queryText: string;
     namespace: string;
   }): Promise<PineconeQuery> {
@@ -65,6 +83,7 @@ export class PineconeService {
       .namespace(namespace)
       .query({
         ...PINECONE_CONFIG.similarityQuery,
+        topK: topK,
         vector: queryEmbedding.data[0].embedding,
       });
 
@@ -163,4 +182,7 @@ export class PineconeService {
       return;
     }
   }
+
+
+
 }

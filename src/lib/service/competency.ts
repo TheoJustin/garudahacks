@@ -1,7 +1,7 @@
 "use server";
 import { UserForm } from "../types/user-form.types";
 import { pineconeService } from "../config/pinecone.config";
-import { WithQuery } from "../types/embeddings.types";
+import { CompetencyRatio, WithQuery } from "../types/embeddings.types";
 
 interface QueryResult{
   result : boolean
@@ -56,7 +56,8 @@ export async function queryCompetency({
   userForm,
 }: {
   userForm: Partial<UserForm>;
-}): Promise<WithQuery<boolean>> {
+}): Promise<WithQuery<CompetencyRatio>> {
+  const total = 10
   const query = await buildCompetencyQuery({
     userForm: userForm,
   });
@@ -64,6 +65,7 @@ export async function queryCompetency({
   console.log("queried one time");
 
   const { queryText, queryResult } = await pineconeService.queryEmbeddings({
+    topK: total,
     queryText: query,
     namespace: "jobs",
   });
@@ -71,9 +73,20 @@ export async function queryCompetency({
   const evaluation = queryResult.matches[0].metadata?.label;
   const result = (evaluation == "Placed")
 
+  let placedCount:number = 0
+
+  queryResult.matches.map((match)=>{
+    if(match.metadata?.label === "Placed") placedCount +=1
+  })
+
+  const competencyRatio = {
+    evaluation: (placedCount > (total/2)),
+    total,
+    placedCount
+  }
 
   return {
-    data : result,
+    data : competencyRatio,
     query : queryText
   };
 }

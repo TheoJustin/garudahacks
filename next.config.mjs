@@ -13,7 +13,13 @@ const nextConfig = {
       "online.hbs.edu",
       "go.dev",
       "1000logos.net",
-      "miro.medium.com"
+      "miro.medium.com",
+      "cdn1.iconfinder.com",
+      "cdn.pixabay.com",
+      "i.pinimg.com",
+      "encrypted-tbn0.gstatic.com",
+      "static-00.iconduck.com"
+
     ],
   },
   reactStrictMode: true,

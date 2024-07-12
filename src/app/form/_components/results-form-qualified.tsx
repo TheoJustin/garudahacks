@@ -98,6 +98,9 @@ export default function ResultsFormQualified({
     }
   };
 
+  console.log(evaluation?.evaluation?.data.evaluation)
+  console.log(evaluation?.evaluation?.data.placedCount)
+  console.log(evaluation?.evaluation?.data.total)
   return (
     <div className="h-full flex flex-col justify-between">
       <div></div>
@@ -126,8 +129,11 @@ export default function ResultsFormQualified({
             )}
           </div>
         </div>
-        <p className="font-medium text-slate-600 text-lg">
+        <p className="font-medium text-slate-600 text-lg mt-8 md:mt-16">
           You are{!isQualified && " not"} qualified
+        </p>
+        <p>
+          Likely hired by {evaluation?.evaluation?.data.placedCount ?? 0} from {evaluation?.evaluation?.data.total ?? 0} recruiters.
         </p>
       </div>
       <div className="flex flex-col gap-3 items-center justify-center">
@@ -225,7 +231,7 @@ export default function ResultsFormQualified({
                   </Button>
                   <Button
                     className="mt-4 w-full"
-                    onClick={() => router.push("/job-vacancies")}
+                    onClick={() => router.push("/job-vacancy")}
                   >
                     No thanks
                   </Button>

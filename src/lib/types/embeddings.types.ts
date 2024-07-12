@@ -14,7 +14,7 @@ export interface PineconeQuery {
 }
 
 export interface EvaluationQueryResult {
-  evaluation: WithQuery<boolean> | undefined;
+  evaluation: WithQuery<CompetencyRatio> | undefined;
   skillReccomendations: WithQuery<RecordMetadataValue[]> | undefined;
   jobs: WithQuery<QueryResponse<RecordMetadata>> | undefined;
 }
@@ -22,4 +22,10 @@ export interface EvaluationQueryResult {
 export interface WithQuery<T> {
   data : T
   query : string
+}
+
+export interface CompetencyRatio {
+  evaluation : boolean,
+  total: number,
+  placedCount: number
 }

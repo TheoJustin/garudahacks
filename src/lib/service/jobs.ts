@@ -56,3 +56,26 @@ export async function queryJobs({
     query : queryText
   };
 }
+
+export async function queryJobsWithText({
+  topK,
+  query,
+}: {
+  topK :number
+  query: string;
+}): Promise<WithQuery<QueryResponse<RecordMetadata>>> {
+  
+  console.log("run just once");
+
+  const {queryText, queryResult } = await pineconeService.queryEmbeddings({
+
+    topK: topK,
+    queryText: query,
+    namespace: "findjobs",
+  });
+
+  return {
+    data : queryResult,
+    query : queryText
+  };
+}

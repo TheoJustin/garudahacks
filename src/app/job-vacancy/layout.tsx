@@ -10,7 +10,7 @@ export default function JobVacancyLayout({
         <>
         <div className="bg-primary-foreground min-h-screen">
           <Navbar hoveredClassName="bg-[#f9fafc]"/>
-          <div className="w-full h-fit flex justify-start items-center pt-10 p-6 px-12">
+          <div className="w-full h-fit flex justify-start items-center p-6 px-12">
               {children}
           </div>
         </div>
