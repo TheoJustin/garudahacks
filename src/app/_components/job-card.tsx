@@ -1,7 +1,6 @@
 import { Button } from "@/lib/components/ui/button";
 import { Card } from "@/lib/components/ui/card";
 import { Heart } from "lucide-react";
-import React from "react";
 import Image from "next/image";
 import placeholder from "../../../public/google.png";
 import JobTypeBadge from "../job-vacancy/_components/job-type-badge";
@@ -57,10 +56,10 @@ export default function JobCard({
           })}
         </div>
         <div>
-            <div className="text-lg">Starting at</div>
-            <div className="text-xl font-semibold">{`Rp ${startingSalary.toLocaleString()}/Month`}</div>
-          </div>
-          <Button className="w-full bg-black rounded-full">Apply</Button>
+          <div className="text-lg">Starting at</div>
+          <div className="text-xl font-semibold">{`Rp ${startingSalary.toLocaleString()}/Month`}</div>
+        </div>
+        <Button className="w-full bg-black rounded-full">Apply</Button>
       </div>
     </Card>
   );

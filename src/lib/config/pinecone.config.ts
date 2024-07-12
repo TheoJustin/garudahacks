@@ -1,6 +1,6 @@
 export const PINECONE_CONFIG = {
   similarityQuery: {
-    topK: 10, // Top result limit
+    topK: 5, // Top result limit
     includeValues: false, // exclude vector value
     includeMetadata: true, // include metadata
   },

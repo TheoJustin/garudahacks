@@ -1,5 +1,5 @@
 export interface UserForm {
-  educationLevel: number;
+  educationLevel: number; // 1 middle, 2 high, 3 >= undergrad
   email: string;
   name: string;
   score: number;
