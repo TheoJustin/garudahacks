@@ -2,8 +2,8 @@ import { Button } from "@/lib/components/ui/button";
 import { Card } from "@/lib/components/ui/card";
 import { Heart } from "lucide-react";
 import Image from "next/image";
-import placeholder from "../../../public/google.png";
-import JobTypeBadge from "./job-type-badge";
+import placeholder from "../../../../public/google.png";
+import TypeBadge from "../../_components/type-badge";
 
 interface JobCardInterface {
   logo: String;
@@ -51,15 +51,20 @@ export default function JobCard({
       </div>
       <div className="w-full gap-2 flex flex-col">
         <div className="flex gap-3 mb-6">
-          {jobType.map((job) => {
-            return <JobTypeBadge jobType={job} />;
+          {jobType.map((job, i) => {
+            if (i < 3) {
+              return <TypeBadge type={job} />;
+            }
+            if(i == 3){
+              return <TypeBadge type={`+${jobType.length - 3}`} />;
+            }
           })}
         </div>
         <div>
           <div className="text-lg">Starting at</div>
           <div className="text-xl font-semibold">{`Rp ${startingSalary.toLocaleString()}/Month`}</div>
         </div>
-        <Button className="w-full bg-black rounded-full">Apply</Button>
+        <Button className="w-full bg-black rounded-xl">Apply</Button>
       </div>
     </Card>
   );
