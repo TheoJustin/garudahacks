@@ -226,16 +226,18 @@ export default function ResultsFormQualified({
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full p-2 border rounded mt-2"
                   />
+                  <div className="w-full flex flex-col">
                   <Button className="mt-4 w-full" onClick={handleSignUp}>
                     Sign Up
                   </Button>
                   <Button
+                  variant={"ghost"}
                     className="mt-4 w-full"
                     onClick={() => router.push("/job-vacancy")}
                   >
                     No thanks
                   </Button>
-                  <SignOutButton>Sign out</SignOutButton>
+                  </div>
                 </div>
               ) : (
                 <div className="flex flex-col gap-4 w-full mt-4">

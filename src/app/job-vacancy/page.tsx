@@ -57,9 +57,21 @@ export default function JobVacancyPage() {
       </div>
       <div className="flex flex-col w-[75%] gap-3">
         <h1 className="text-4xl font-semibold mb-12">Recommended Jobs for You!</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3">
-          <Suspense fallback={<p>...</p>}>{MemoizedSteveJobs}</Suspense>
-        </div>
+        
+          <Suspense fallback={ <div className="flex w-full min-h-[60dvh] justify-center items-center flex-row gap-2">
+          <div className="animate-pulse">
+            <div className="w-4 h-4 rounded-full bg-primary animate-bounce"></div>
+          </div>
+          <div className="animate-pulse [animation-delay:-.3s]">
+            <div className="w-4 h-4 rounded-full bg-primary animate-bounce [animation-delay:-.3s]"></div>
+          </div>
+          <div className="animate-pulse [animation-delay:-.5s]">
+            <div className="w-4 h-4 rounded-full bg-primary animate-bounce [animation-delay:-.5s]"></div>
+          </div>
+        </div>}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3"></div>
+        {MemoizedSteveJobs}
+        </Suspense>
       </div>
     </div>
   );
