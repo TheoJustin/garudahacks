@@ -1,8 +1,9 @@
 "use server";
 import { UserForm } from "../types/user-form.types";
 import { pineconeService } from "../config/pinecone.config";
+import { RecordMetadataValue } from "@pinecone-database/pinecone/dist/data/types";
 
-async function buildCompetencyQuery({
+async function buildSkillImprovementQuery({
   userForm,
 }: {
   userForm: Partial<UserForm>;
@@ -16,9 +17,6 @@ async function buildCompetencyQuery({
     typeof userForm.educationLevel == "number"
       ? `I have an education level of ${educationLevels[userForm.educationLevel]}`
       : "";
-  const averageScore = userForm.score
-    ? `With an average score of ${userForm.score}.`
-    : "";
 
   const gender = userForm.gender ? `I am a ${userForm.gender}.` : "";
 
@@ -27,11 +25,6 @@ async function buildCompetencyQuery({
   const workExperience = userForm.workExperience
     ? "I have previous work experience."
     : "I have no work experience.";
-
-  const aptitudeText =
-    userForm.aptitudeTest === 0 || userForm.aptitudeTest == undefined
-      ? "I have not taken an aptitude test."
-      : `My aptitude test score is ${userForm.aptitudeTest}.`;
 
   let workExperiences = "";
   if (userForm.workExperience && userForm.workExperiences) {
@@ -42,27 +35,29 @@ async function buildCompetencyQuery({
       .join(" ");
   }
 
-  const combinedText = `${gender} ${educationLevel} ${averageScore} ${aptitudeText} ${description} ${workExperience} ${workExperiences}. Am i qualified for a job?`;
+  const combinedText = `${gender} ${educationLevel}  ${description} ${workExperience} ${workExperiences}. With my current level of experience, skill, and ability, reccomend me a job`;
   return combinedText;
 }
 
-export async function queryCompetency({
+export async function querySkillIssue({
   userForm,
 }: {
   userForm: Partial<UserForm>;
-}): Promise<boolean> {
-  const query = await buildCompetencyQuery({
+}): Promise<RecordMetadataValue[]> {
+  const query = await buildSkillImprovementQuery({
     userForm: userForm,
   });
 
-  console.log("queried one time");
+  console.log("ke run sekali");
 
   const { queryResult } = await pineconeService.queryEmbeddings({
     queryText: query,
-    namespace: "jobs",
+    namespace: "findjobs",
   });
 
-  const evaluation = queryResult.matches[0].metadata?.label;
+  const skills = queryResult.matches
+    .map((match) => match.metadata!.skills)
+    .filter((skill) => !!skill);
 
-  return evaluation == "Placed";
+  return skills;
 }

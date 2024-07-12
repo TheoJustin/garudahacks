@@ -1,77 +1,99 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { createContext, useState, useContext} from 'react'
-import { useMutation } from 'react-query'
-import { UserForm } from '../types/user-form.types';
-import { queryCompetency } from '../service/competency';
+import { createContext, useState, useContext, useCallback } from "react";
+import { useMutation } from "react-query";
+import { UserForm } from "../types/user-form.types";
+import { queryCompetency } from "../service/competency";
+import { EvaluationQueryResult } from "../types/embeddings.types";
+import { queryJobs } from "../service/jobs";
+import { querySkillIssue } from "../service/skill-issue";
 
 type FormContextType = {
-  formData: Partial<UserForm>,
-  appendFormData: (data: Partial<UserForm>) => void,
-  finalize: () => void,
-  isLoading: boolean
-}
+  formData: Partial<UserForm>;
+  appendFormData: (data: Partial<UserForm>) => void;
+  finalize: () => void;
+  isLoading: boolean;
+  evaluation: EvaluationQueryResult | undefined;
+  requestMade: boolean;
+};
 
 export const FormContext = createContext<FormContextType>({
   formData: {},
-  appendFormData: ()=>{},
-  finalize: ()=>{},
-  isLoading:false
-})
+  appendFormData: () => {},
+  finalize: () => {},
+  isLoading: false,
+  evaluation: undefined,
+  requestMade: false,
+});
 
 export const useFormContext = () => {
-  return useContext(FormContext)
-}
+  return useContext(FormContext);
+};
 
 export default function FormContextProvider({
-  children
-} : {
-  children: React.ReactNode
+  children,
+}: {
+  children: React.ReactNode;
 }) {
-
   const [formData, setFormData] = useState<Partial<UserForm>>({});
+  const [requestMade, setRequestMade] = useState(false);
 
-  const { mutate: appendFormData, isLoading: isAppendFormDataLoading } = useMutation(
-    async (data: Partial<UserForm>) => {
+  const { mutate: appendFormData, isLoading: isAppendFormDataLoading } =
+    useMutation(async (data: Partial<UserForm>) => {
       setFormData((prev) => ({
-          ...prev,
-          ...data
+        ...prev,
+        ...data,
       }));
-    }
-  );
+    });
 
-  const {mutate:finalize, isLoading:isFinalizeLoading} = useMutation(
-    async ()=>{
+  const {
+    mutate: finalizeMutation,
+    isLoading: isFinalizeLoading,
+    data: evaluation,
+  } = useMutation(
+    async () => {
+      const [evaluation, skillReccomendations, jobs] = await Promise.all([
+        queryCompetency({ userForm: formData }),
+        querySkillIssue({ userForm: formData }),
+        queryJobs({ userForm: formData }),
+      ]);
 
-      // TODO: Do some validation here
+      const data: EvaluationQueryResult = {
+        evaluation,
+        skillReccomendations,
+        jobs,
+      };
 
-      await queryCompetency({
-        userForm:formData
-      })
-      // TODO: Call the API to create the Form
+      console.log(data.evaluation);
+      console.log(data.skillReccomendations);
+      console.log(data.jobs);
+      return data;
     },
     {
-        onSuccess:(data)=>{
-            // toast("Form successfully created!") 
-            console.log(data)
-        },
-        onError:(error:Error)=>{
-            // toast.error(error.message,{
-            //     icon:<AlertCircle className='w-full'/>
-            // })
-        }
+      onSuccess: () => {
+        setRequestMade(true);
+      },
+    },
+  );
+
+  const finalize = useCallback(() => {
+    if (!requestMade) {
+      finalizeMutation();
     }
-)
+  }, [requestMade, finalizeMutation]);
 
   return (
-    <FormContext.Provider value={{
-      formData,
-      appendFormData,
-      finalize,
-      isLoading: isAppendFormDataLoading || isFinalizeLoading
-    }}>
+    <FormContext.Provider
+      value={{
+        formData,
+        appendFormData,
+        finalize,
+        isLoading: isAppendFormDataLoading || isFinalizeLoading,
+        evaluation,
+        requestMade,
+      }}
+    >
       {children}
     </FormContext.Provider>
-  )
+  );
 }

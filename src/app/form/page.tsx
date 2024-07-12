@@ -15,6 +15,7 @@ import WorkForm from './_components/work-form'
 export default function FormPage() {
 
     const [currentStep, setCurrentStep] = useState(0)
+    const [email, setEmail] = useState("");
 
     return (
       <FormContextProvider>
