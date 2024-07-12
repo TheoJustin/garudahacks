@@ -1,11 +1,16 @@
 "use client";
-import { sendData } from "@/lib/api";
+import { sendAcceptedEmail, sendDeclinedEmail } from "@/lib/api";
 import { useState } from "react";
 import { useFormContext } from "@/lib/context/form_context";
 import { useRouter } from "next/navigation";
 import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
-import { useSignUp, useSignIn, SignUpButton, SignOutButton } from "@clerk/nextjs";
+import {
+  useSignUp,
+  useSignIn,
+  SignUpButton,
+  SignOutButton,
+} from "@clerk/nextjs";
 import {
   Credenza,
   CredenzaBody,
@@ -28,6 +33,7 @@ export default function ResultsFormQualified({
 }: ResultsFormQualifiedProps) {
   const [isChecked, setIsChecked] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [isSent, setIsSent] = useState(false);
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [verifying, setVerifying] = useState<boolean>(false);
@@ -37,14 +43,12 @@ export default function ResultsFormQualified({
   const router = useRouter();
   const { formData, evaluation, appendFormData } = useFormContext();
 
-
   const handleSignUp = async () => {
     try {
       if (!signUp) return;
 
-      
       const signUpAttempt = await signUp.create({
-        username:username,
+        username: username,
         emailAddress: formData.email as string,
         password: password,
       });
@@ -56,8 +60,8 @@ export default function ResultsFormQualified({
       setVerifying(true);
 
       appendFormData({
-        username:username
-      })
+        username: username,
+      });
     } catch (error) {
       console.error("Sign-up failed:", error);
     }
@@ -76,11 +80,11 @@ export default function ResultsFormQualified({
       if (completeSignUp.status === "complete") {
         await setActive({ session: completeSignUp.createdSessionId });
         await upsertUserToPinecone({
-          userForm:formData,
-          userId:completeSignUp.createdUserId
-        })
-        setVerifying(false)
-        router.push("/job-vacancy")
+          userForm: formData,
+          userId: completeSignUp.createdUserId,
+        });
+        setVerifying(false);
+        router.push("/job-vacancy");
       } else {
         console.error(JSON.stringify(completeSignUp, null, 2));
       }
@@ -88,7 +92,6 @@ export default function ResultsFormQualified({
       console.error("Verification failed:", error);
     }
   };
-
 
   return (
     <div className="h-full flex flex-col justify-between">
@@ -124,106 +127,121 @@ export default function ResultsFormQualified({
       </div>
       <div className="flex flex-col gap-3 items-center justify-center">
         <Credenza>
-        
-        {isQualified ? (
-          <>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="terms"
-                checked={isChecked}
-                onCheckedChange={(checked: boolean) => setIsChecked(checked)}
-              />
-              <label
-                htmlFor="terms"
-                className="text-lg font-medium text-slate-500 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Send results to my email
-              </label>
-            </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="terms"
+              checked={isChecked}
+              onCheckedChange={(checked: boolean) => setIsChecked(checked)}
+            />
+            <label
+              htmlFor="terms"
+              className="text-lg font-medium text-slate-500 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Send results to my email
+            </label>
+          </div>
+          {isQualified ? (
+            <>
+              <CredenzaTrigger asChild>
+                <Button
+                  className="text-xl py-6 px-14 rounded-full"
+                  onClick={async () => {
+                    if (isChecked && !isSent) {
+                      setIsDisabled(true);
+                      await sendAcceptedEmail({
+                        email: formData.email ?? "josejonathan.tano@gmail.com",
+                        evaluation: evaluation,
+                        callback: () => {
+                          setIsDisabled(false);
+                          setIsSent(true);
+                        },
+                      });
+                    }
+                  }}
+                  disabled={isDisabled}
+                >
+                  Find me a job
+                </Button>
+              </CredenzaTrigger>
+            </>
+          ) : (
             <CredenzaTrigger asChild>
-            <Button
-              className="text-xl py-6 px-14 rounded-full"
-              onClick={async () => {
-                if (isChecked) {
-                  console.log("tes");
-                  setIsDisabled(true);
-                  await sendData({
-                    email: formData.email ?? "josejonathan.tano@gmail.com",
-                    evaluation: evaluation,
-                  });
-                }
-              }}
-              disabled={isDisabled}
-            >
-              Find me a job
-            </Button>
+              <Button
+                className="text-xl py-6 px-14 rounded-full"
+                onClick={async () => {
+                  if (isChecked && !isSent) {
+                    setIsDisabled(true);
+                    await sendDeclinedEmail({
+                      email: formData.email ?? "josejonathan.tano@gmail.com",
+                      evaluation: evaluation,
+                      callback: () => {
+                        setIsDisabled(false);
+                        setIsSent(true);
+                      },
+                    });
+                  }
+                }}
+                disabled={isDisabled}
+              >
+                Get my training plan
+              </Button>
             </CredenzaTrigger>
-          </>
-        ) 
-        : 
-        (
-          <CredenzaTrigger asChild>
-            <Button
-              className="text-xl py-6 px-14 rounded-full"
-              disabled={isDisabled}
-            >
-              Get my training plan
-            </Button>
-          </CredenzaTrigger>
-        )}
-        <CredenzaContent className="pt-10 w-full p-8">
-        <CredenzaHeader>
-          <CredenzaTitle className="font-medium text-base lg:text-xl">
-            Create your personalized experience
-          </CredenzaTitle>
-          <CredenzaDescription>
-            We've sent you your results to your email! Create an account to help us understand you better and give a
-            tailored experience based on your expertise
-          </CredenzaDescription>
-        </CredenzaHeader>
-        <CredenzaBody>
-        {!verifying ? (
-              <div className="flex flex-col gap-4 w-full mt-4">
-                <input
-                  type="text"
-                  placeholder="Enter your username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="w-full p-2 border rounded"
-                />
-                <input
-                  type="password"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full p-2 border rounded mt-2"
-                />
-                <Button className="mt-4 w-full" onClick={handleSignUp}>
-                  Sign Up
-                </Button>
-                <Button className="mt-4 w-full" onClick={()=>router.push("/job-vacancies")}>
-                  No thanks
-                </Button>
-                <SignOutButton>
-                  Sign out
-                </SignOutButton>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4 w-full mt-4">
-                <input
-                  type="text"
-                  placeholder="Enter verification code"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  className="w-full p-2 border rounded"
-                />
-                <Button className="mt-4" onClick={handleVerify}>
-                  Verify
-                </Button>
-              </div>
-            )}
-        </CredenzaBody>
-        </CredenzaContent>
+          )}
+          <CredenzaContent className="pt-10 w-full p-8">
+            <CredenzaHeader>
+              <CredenzaTitle className="font-medium text-base lg:text-xl">
+                Create your personalized experience
+              </CredenzaTitle>
+              <CredenzaDescription>
+                We've sent you your results to your email! Create an account to
+                help us understand you better and give a tailored experience
+                based on your expertise
+              </CredenzaDescription>
+            </CredenzaHeader>
+            <CredenzaBody>
+              {!verifying ? (
+                <div className="flex flex-col gap-4 w-full mt-4">
+                  <input
+                    type="text"
+                    placeholder="Enter your username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="w-full p-2 border rounded"
+                  />
+                  <input
+                    type="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full p-2 border rounded mt-2"
+                  />
+                  <Button className="mt-4 w-full" onClick={handleSignUp}>
+                    Sign Up
+                  </Button>
+                  <Button
+                    className="mt-4 w-full"
+                    onClick={() => router.push("/job-vacancies")}
+                  >
+                    No thanks
+                  </Button>
+                  <SignOutButton>Sign out</SignOutButton>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4 w-full mt-4">
+                  <input
+                    type="text"
+                    placeholder="Enter verification code"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    className="w-full p-2 border rounded"
+                  />
+                  <Button className="mt-4" onClick={handleVerify}>
+                    Verify
+                  </Button>
+                </div>
+              )}
+            </CredenzaBody>
+          </CredenzaContent>
         </Credenza>
       </div>
     </div>
