@@ -1,12 +1,10 @@
 import { Pinecone } from "@pinecone-database/pinecone";
 import { PINECONE_CONFIG } from "../config/pinecone.config";
 import dotenv from "dotenv";
-import { OpenAIService } from "./openai.service";
 import { PineconeQuery } from "../types/embeddings.types";
+import { openAiService } from "../config/openai.config";
 
 dotenv.config();
-
-let openAiService = new OpenAIService();
 
 export enum ManagePineconeIndexEnum {
   Create = "CREATE",
@@ -69,8 +67,8 @@ export class PineconeService {
         vector: queryEmbedding.data[0].embedding,
       });
 
-    console.log(queryText);
-    console.log(queryResult.matches);
+    // console.log(queryText);
+    // console.log(queryResult.matches);
 
     return {
       queryText,

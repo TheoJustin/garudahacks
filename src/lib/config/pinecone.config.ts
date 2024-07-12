@@ -16,4 +16,4 @@ export const PINECONE_CONFIG = {
   region: "us-east-1",
 };
 
-export const pinecone = new PineconeService()
+export const pineconeService = new PineconeService()

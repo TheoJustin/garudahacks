@@ -1,11 +1,19 @@
-"use server"
+"use server";
 import { UserForm } from "../types/user-form.types";
-import {pinecone} from "../config/pinecone.config"
+import { pineconeService } from "../config/pinecone.config";
+import { RecordMetadata } from "@pinecone-database/pinecone/dist/data/types";
+import { QueryResponse } from "@pinecone-database/pinecone";
 
-async function buildJobsQuery({userForm}: {userForm:Partial<UserForm>}): Promise<string> {
+async function buildJobsQuery({
+  userForm,
+}: {
+  userForm: Partial<UserForm>;
+}): Promise<string> {
   const gender = userForm.gender ? `${userForm.gender}` : "";
 
-  const description = userForm.description ? `this person's description implies that ${userForm.description}` : "";
+  const description = userForm.description
+    ? `this person's description implies that ${userForm.description}`
+    : "";
   let workExperiences = "";
   if (userForm.workExperience && userForm.workExperiences) {
     workExperiences = userForm.workExperiences
@@ -19,17 +27,21 @@ async function buildJobsQuery({userForm}: {userForm:Partial<UserForm>}): Promise
   return combinedText;
 }
 
-export async function process({ userForm }: { userForm: UserForm }) {}
-
-
-export async function queryCompetency({ userForm }: { userForm: Partial<UserForm> }) {
+export async function queryJobs({
+  userForm,
+}: {
+  userForm: Partial<UserForm>;
+}): Promise<QueryResponse<RecordMetadata>> {
   const query = await buildJobsQuery({
-    userForm: userForm
-  })
+    userForm: userForm,
+  });
 
-  console.log(query)
-  pinecone.queryEmbeddings({
-    queryText:query,
-    namespace:"findjobs"
-  })
+  console.log("run just once");
+
+  const { queryResult } = await pineconeService.queryEmbeddings({
+    queryText: query,
+    namespace: "findjobs",
+  });
+
+  return queryResult;
 }
