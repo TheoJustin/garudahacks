@@ -1,7 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { createContext, useState, useContext} from 'react'
+import { createContext, useState, useContext, useCallback } from 'react'
 import { useMutation } from 'react-query'
 import { UserForm } from '../types/user-form.types';
 import { queryCompetency } from '../service/competency';
@@ -10,14 +9,18 @@ type FormContextType = {
   formData: Partial<UserForm>,
   appendFormData: (data: Partial<UserForm>) => void,
   finalize: () => void,
-  isLoading: boolean
+  isLoading: boolean,
+  evaluation: boolean | undefined,
+  requestMade: boolean
 }
 
 export const FormContext = createContext<FormContextType>({
   formData: {},
   appendFormData: ()=>{},
   finalize: ()=>{},
-  isLoading:false
+  isLoading:false,
+  evaluation: undefined,
+  requestMade: false
 })
 
 export const useFormContext = () => {
@@ -31,6 +34,7 @@ export default function FormContextProvider({
 }) {
 
   const [formData, setFormData] = useState<Partial<UserForm>>({});
+  const [requestMade, setRequestMade] = useState(false);
 
   const { mutate: appendFormData, isLoading: isAppendFormDataLoading } = useMutation(
     async (data: Partial<UserForm>) => {
@@ -41,37 +45,35 @@ export default function FormContextProvider({
     }
   );
 
-  const {mutate:finalize, isLoading:isFinalizeLoading} = useMutation(
-    async ()=>{
-
-      // TODO: Do some validation here
-
-      await queryCompetency({
-        userForm:formData
-      })
-      // TODO: Call the API to create the Form
+  const { mutate: finalizeMutation, isLoading: isFinalizeLoading, data: evaluation } = useMutation(
+    async () => {
+      return await queryCompetency({
+        userForm: formData
+      });
     },
     {
-        onSuccess:(data)=>{
-            // toast("Form successfully created!") 
-            console.log(data)
-        },
-        onError:(error:Error)=>{
-            // toast.error(error.message,{
-            //     icon:<AlertCircle className='w-full'/>
-            // })
-        }
+      onSuccess: (data) => {
+        setRequestMade(true);
+      }
     }
-)
+  );
+
+  const finalize = useCallback(() => {
+    if (!requestMade) {
+      finalizeMutation();
+    }
+  }, [requestMade, finalizeMutation]);
 
   return (
     <FormContext.Provider value={{
       formData,
       appendFormData,
       finalize,
-      isLoading: isAppendFormDataLoading || isFinalizeLoading
+      isLoading: isAppendFormDataLoading || isFinalizeLoading,
+      evaluation,
+      requestMade
     }}>
       {children}
     </FormContext.Provider>
-  )
+  );
 }

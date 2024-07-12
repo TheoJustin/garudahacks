@@ -8,7 +8,7 @@ async function buildCompetencyQuery({userForm}: {userForm:Partial<UserForm>}): P
     "Higher secondary",
     "Undergraduate or higher",
   ];
-  const educationLevel = userForm.educationLevel
+  const educationLevel = (typeof(userForm.educationLevel) == 'number')
     ? `I have an education level of ${educationLevels[userForm.educationLevel]}`
     : "";
   const averageScore = userForm.score
@@ -44,14 +44,20 @@ async function buildCompetencyQuery({userForm}: {userForm:Partial<UserForm>}): P
 export async function process({ userForm }: { userForm: UserForm }) {}
 
 
-export async function queryCompetency({ userForm }: { userForm: Partial<UserForm> }) {
+export async function queryCompetency({ userForm }: { userForm: Partial<UserForm> }):Promise<boolean> {
   const query = await buildCompetencyQuery({
     userForm: userForm
   })
 
+  console.log("ke run sekali")
   console.log(query)
-  pinecone.queryEmbeddings({
+  const {queryText, queryResult} = await pinecone.queryEmbeddings({
     queryText:query,
     namespace:"jobs"
   })
+
+  const evaluation = queryResult.matches[0].metadata?.label
+
+  return (evaluation == "Placed")
+
 }

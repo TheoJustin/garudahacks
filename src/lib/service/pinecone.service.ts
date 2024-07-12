@@ -60,7 +60,6 @@ export class PineconeService {
     namespace: string;
   }): Promise<PineconeQuery> {
     const queryEmbedding = await openAiService.createEmbeddings({ queryText });
-    console.log(queryEmbedding);
 
     const queryResult = await this.pinecone
       .index(PINECONE_CONFIG.indexName)
